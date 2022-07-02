@@ -1,5 +1,5 @@
 # node-express-study
 modulos necesarios:
-dotenv
-nodemon
+dotenv,
+nodemon,
 mongoose
