@@ -25,11 +25,34 @@ const addFormListener = () => {
         });
         //resetea el formulario despues de enviar los datos
         userForm.reset();
+        //cada vez que se genera un nuevo elemento, esta funcion lo muestra
+        getUsers();
     }
+}
+
+const getUsers = async () => {
+    //guarda la respuesta de la peticion fetch al endpoint
+    const response = await fetch('v1/api/users');
+    //guarda la respuesta convertida a json en una constante
+    const users = await response.json();
+    //crea una funcion que genera una plantilla para agregar en la lista no ordenada de la vista
+    //para mostrar los datos recibidos
+    const template = (user) => ` 
+        <li>
+            ${user.username} ${user.lastname} <button data-id="${user._id}">Eliminar</button>
+        </li>
+    ` 
+    //obtiene la referencia del elemento al que queremos modificar en la vista
+    const userList = document.getElementById('user-list');
+    //el elemento a modificar utiliza users que en este caso seria lo que recibe del fetch y a cada
+    //elemento lo pasa la funcion template y los une con el metodo join
+    userList.innerHTML = users.map(user => template(user)).join('');
 }
 
 //permite que las funciones utilizadas se carguen al terminar de cargar la ventana
 window.onload = () => {
     //llamada de la funcion creada anteriormente
     addFormListener();
+    //llamada de la funcion para mostrar los elementos existentes
+    getUsers();
 }
