@@ -1,2 +1,13 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+{{!-- se llama el script necesario desde la ruta, con defer para que lo reconozca--}}
+<script defer src="/javascripts/funciones.js"></script>
+{{!-- creacion de plantilla  --}}
+<h1>Usuarios</h1>
+<form action="" id="userform">
+    <label for="">Nombre</label>
+    {{!-- es necesario asignarle un name a los inputs --}}
+    <input type="text" name="username">
+    <label for="" >Apellido</label>
+    <input type="text" name="lastname">
+    <button type="submit">Enviar</button>
+</form>
+<ul id="user-list"></ul>

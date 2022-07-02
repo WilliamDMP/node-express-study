@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+//configuracion de la varible de entorno
 require('dotenv').config({
   path: `./environments/${process.env.SCOPE === 'development' ? process.env.SCOPE : 'production'}.env`  
 })
@@ -12,13 +13,12 @@ console.log(process.env.MONGODB_URI);
 
 var app = express();
 
+//establecer conexion a mongodb con la ruta hacia mongodb
 mongoose.connect(process.env.MONGODB_URI).then( () => {
   console.log('connected to the database')
 }).catch( err => console.log(err))
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 
 
 // view engine setup
@@ -32,19 +32,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-//http://localhost:3000/v1/users/
-app.use('/v1/users', require('./controllers/getUsers'));
-//http://localhost:3000/v1/users/:id
-app.use('/v1/users', require('./controllers/getUser'));
-//http://localhost:3000/v1/users/
-app.use('/v1/users', require('./controllers/postUsers'));
-//http://localhost:3000/v1/users/:id
-app.use('/v1/users', require('./controllers/putUser'));
-//http://localhost:3000/v1/users/:id
-app.use('/v1/users', require('./controllers/patchUser'));
-//http://localhost:3000/v1/users/:id
-app.use('/v1/users', require('./controllers/deleteUser'));
+
+//endpoints necesarios
+//http://localhost:3000/v1/api/users
+app.use('/v1/api', require('./controllers/getUsers'));
+//http://localhost:3000/v1/api/users/:id
+app.use('/v1/api', require('./controllers/getUser'));
+//http://localhost:3000/v1/api/users
+app.use('/v1/api', require('./controllers/postUsers'));
+//http://localhost:3000/v1/api/users/:id
+app.use('/v1/api', require('./controllers/putUser'));
+//http://localhost:3000/v1/api/users/:id
+app.use('/v1/api', require('./controllers/patchUser'));
+//http://localhost:3000/v1/api/users/:id
+app.use('/v1/api', require('./controllers/deleteUser'));
 
 
 // catch 404 and forward to error handler
